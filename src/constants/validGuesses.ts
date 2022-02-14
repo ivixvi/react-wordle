@@ -1,4 +1,6 @@
 export const VALID_GUESSES = [
+  '*tain',
+  'dyc*y',
   'aahed',
   'aalii',
   'aargh',

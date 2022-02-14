@@ -177,12 +177,9 @@ function App() {
       return
     }
     if (!(currentGuess.length === MAX_WORD_LENGTH)) {
-      setIsNotEnoughLetters(true)
-      setCurrentRowClass('jiggle')
-      return setTimeout(() => {
-        setIsNotEnoughLetters(false)
-        setCurrentRowClass('')
-      }, ALERT_TIME_MS)
+      // 文字足りてなかったら、エラーにせずにENTERを入力
+      onChar('*')
+      return
     }
 
     if (!isWordInWordList(currentGuess)) {
