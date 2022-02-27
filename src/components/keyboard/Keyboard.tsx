@@ -74,7 +74,7 @@ export const Keyboard = ({
         ))}
       </div>
       <div className="flex justify-center">
-        <Key width={65.4} value="ENTER" onClick={onClick}>
+        <Key width={65.4} value="ENTER" onClick={onClick} status={charStatuses['*']}>
           {ENTER_TEXT}
         </Key>
         {['Z', 'X', 'C', 'V', 'B', 'N', 'M'].map((key) => (

@@ -43,7 +43,15 @@ export const Cell = ({
       'cell-reveal': shouldReveal,
     }
   )
-
+  if (value === "*") {
+    return (
+      <div className={classes} style={{fontSize: '1.1em', animationDelay}}>
+        <div className="letter-container" style={{ animationDelay }}>
+          ENTER
+        </div>
+      </div>
+    )
+  }else {
   return (
     <div className={classes} style={{ animationDelay }}>
       <div className="letter-container" style={{ animationDelay }}>
@@ -51,4 +59,5 @@ export const Cell = ({
       </div>
     </div>
   )
+  }
 }

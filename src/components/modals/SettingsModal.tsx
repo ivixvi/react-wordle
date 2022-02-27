@@ -29,11 +29,13 @@ export const SettingsModal = ({
   return (
     <BaseModal title="Settings" isOpen={isOpen} handleClose={handleClose}>
       <div className="grid-cols-2 gap-4">
-        <SettingsToggle
-          settingName="Hard Mode"
-          flag={isHardMode}
-          handleFlag={handleHardMode}
-        />
+        <div style={{display: 'none'}}>
+          <SettingsToggle
+            settingName="Hard Mode"
+            flag={isHardMode}
+            handleFlag={handleHardMode}
+          />
+        </div>
         <SettingsToggle
           settingName="Dark Mode"
           flag={isDarkMode}

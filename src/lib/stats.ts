@@ -35,7 +35,7 @@ export const addStatsForCompletedGame = (
   return stats
 }
 
-const defaultStats: GameStats = {
+export const defaultStats: GameStats = {
   winDistribution: Array.from(new Array(MAX_CHALLENGES), () => 0),
   gamesFailed: 0,
   currentStreak: 0,
