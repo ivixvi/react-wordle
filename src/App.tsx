@@ -1,7 +1,7 @@
 import {
   InformationCircleIcon,
-  ChartBarIcon,
   CogIcon,
+  RefreshIcon,
 } from '@heroicons/react/outline'
 import { useState, useEffect } from 'react'
 import { Alert } from './components/alerts/Alert'
@@ -33,9 +33,13 @@ import {
   solution,
   findFirstUnusedReveal,
 } from './lib/words'
-import { addStatsForCompletedGame, loadStats } from './lib/stats'
+import { 
+  // addStatsForCompletedGame,
+  // loadStats,
+  defaultStats,
+} from './lib/stats'
 import {
-  loadGameStateFromLocalStorage,
+  // loadGameStateFromLocalStorage,
   saveGameStateToLocalStorage,
   setStoredIsHighContrastMode,
   getStoredIsHighContrastMode,
@@ -71,22 +75,9 @@ function App() {
   )
   const [successAlert, setSuccessAlert] = useState('')
   const [isRevealing, setIsRevealing] = useState(false)
-  const [guesses, setGuesses] = useState<string[]>(() => {
-    const loaded = loadGameStateFromLocalStorage()
-    if (loaded?.solution !== solution) {
-      return []
-    }
-    const gameWasWon = loaded.guesses.includes(solution)
-    if (gameWasWon) {
-      setIsGameWon(true)
-    }
-    if (loaded.guesses.length === MAX_CHALLENGES && !gameWasWon) {
-      setIsGameLost(true)
-    }
-    return loaded.guesses
-  })
+  const [guesses, setGuesses] = useState<string[]>([])
 
-  const [stats, setStats] = useState(() => loadStats())
+  // const [stats, setStats] = useState(() => loadStats())
 
   const [isHardMode, setIsHardMode] = useState(
     localStorage.getItem('gameMode')
@@ -223,12 +214,10 @@ function App() {
       setCurrentGuess('')
 
       if (winningWord) {
-        setStats(addStatsForCompletedGame(stats, guesses.length))
         return setIsGameWon(true)
       }
 
       if (guesses.length === MAX_CHALLENGES - 1) {
-        setStats(addStatsForCompletedGame(stats, guesses.length + 1))
         setIsGameLost(true)
       }
     }
@@ -244,13 +233,18 @@ function App() {
           className="h-6 w-6 mr-2 cursor-pointer dark:stroke-white"
           onClick={() => setIsInfoModalOpen(true)}
         />
-        <ChartBarIcon
-          className="h-6 w-6 mr-3 cursor-pointer dark:stroke-white"
-          onClick={() => setIsStatsModalOpen(true)}
-        />
         <CogIcon
           className="h-6 w-6 mr-3 cursor-pointer dark:stroke-white"
           onClick={() => setIsSettingsModalOpen(true)}
+        />
+        <RefreshIcon
+          className="h-6 w-6 mr-3 cursor-pointer dark:stroke-white"
+          onClick={() => {
+            setCurrentGuess('');
+            setGuesses([]);
+            setIsGameLost(false);
+            setIsGameWon(false);
+          }}
         />
       </div>
       <Grid
@@ -274,7 +268,7 @@ function App() {
         isOpen={isStatsModalOpen}
         handleClose={() => setIsStatsModalOpen(false)}
         guesses={guesses}
-        gameStats={stats}
+        gameStats={defaultStats}
         isGameLost={isGameLost}
         isGameWon={isGameWon}
         handleShare={() => {
